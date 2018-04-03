@@ -21,6 +21,8 @@ public class MemberView {
 			System.out.println("0.연결확인정보");
 			System.out.println("1.전체회원조회");
 			System.out.println("2.회원조회");
+			System.out.println("3.회원가입");
+			System.out.println("4.회원정보수정");
 			System.out.println("9.종료");
 			
 			int choice =sc.nextInt();
@@ -34,6 +36,14 @@ public class MemberView {
 			case 2:
 				String id=new MemberView().select();
 				new MemberController().selectOn(id);
+				break;
+			case 3:
+				
+				break;
+				
+			case 4:
+				id=new MemberView().select();
+//				new MemberController().updateMember(id);
 				break;
 				
 			case 9:
@@ -79,6 +89,32 @@ public class MemberView {
 	System.out.println("아이디\t이름\t성별\t나이\t이메일\t\t\t전화번호\t\t주소\t\t\t취미\t\t가입일");
 	System.out.println(member.toString());
 		
+	}
+	
+	public Member insertMember(){
+		
+		Member member=new Member();
+		System.out.print("아이디:");
+		member.setMember_id(sc.nextLine());
+		System.out.print("이름:");
+		member.setMember_name(sc.nextLine());
+		System.out.print("성별:");
+		member.setGender(sc.nextLine().charAt(0));
+		System.out.print("나이:");
+		member.setAge(sc.nextInt());
+		sc.nextLine();
+		System.out.print("이메일:");
+		member.setEmail(sc.nextLine());
+		System.out.print("전화번호:");
+		member.setPhone(sc.nextLine());
+		System.out.print("주소:");
+		member.setAddress(sc.nextLine());
+		System.out.print("취미:");
+		member.setHobby(sc.nextLine());
+		System.out.print("가입일:");
+		member.setEnroll_date(null);
+		
+		return member;
 	}
 
 }

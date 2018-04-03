@@ -47,5 +47,23 @@ public class MemberController {
 		
 	}
 	
+	public void updateMember(Member member){
+		int result=new MemberDao().find(member);
+		
+		if(result>0){
+			int result2=new MemberDao().updateMember(member);
+			if(result2>0){
+				new MemberView().displaySuccess("수정완료");
+			}
+			else{
+				new MemberView().displayError("정보를 확인하세요");
+			}
+		}
+		else{
+			new MemberView().displayError("아이디오류");
+		}
+		
+	}
+	
 	
 }

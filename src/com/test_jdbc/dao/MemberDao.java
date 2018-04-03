@@ -106,6 +106,49 @@ public class MemberDao {
 		}
 		return member;	
 	}
+	
+	public int find(Member mid){
+		int result=0;
+		try {
+			Connection conn=DBConnector.getConnect();
+			Statement st=conn.createStatement();
+			String sql="select * from member where member_id='"+mid.getMember_id()+"'";
+			 result=st.executeUpdate(sql);
+			
+			DBConnector.disConnect(st, conn);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;	
+	}
+	
+	public int updateMember(Member member){
+		
+		Connection conn=null;
+		Statement stmt=null;
+		int result=0;
+		try {
+			conn=DBConnector.getConnect();
+			stmt=conn.createStatement();
+			String sql="update member set age="+member.getAge()
+						+",phone='"+member.getPhone()+"',address='"+member.getAddress()
+						+"' where membet_id='"+member.getMember_id()+"'";
+			result=stmt.executeUpdate(sql);
+			
+			if(result>0){
+				conn.commit();
+			}
+			else{
+				conn.rollback();
+			}
+
+			DBConnector.disConnect(stmt, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 
 
