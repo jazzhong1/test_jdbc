@@ -47,11 +47,26 @@ public class MemberController {
 		
 	}
 	
-	public void updateMember(Member member){
-		int result=new MemberDao().find(member);
+	public void insertMember(Member member){
+		
+		int result=new MemberDao().insertMember(member);
+		if(result>0){
+			new MemberView().displaySuccess("성공");
+		}
+		else{
+			new MemberView().displayError("실패");
+		}
+		
+		
+		
+	}
+	
+	public void updateMember(String id){
+		int result=new MemberDao().find(id);
 		
 		if(result>0){
-			int result2=new MemberDao().updateMember(member);
+			Member member=new MemberView().updateMember();
+			int result2=new MemberDao().updateMember(member,id);
 			if(result2>0){
 				new MemberView().displaySuccess("수정완료");
 			}
@@ -63,6 +78,20 @@ public class MemberController {
 			new MemberView().displayError("아이디오류");
 		}
 		
+	}
+	
+	public void deleteMember(String id){
+		int result=new MemberDao().find(id);
+		
+		if(result>0){
+			int result2=new MemberDao().memberDelete(id);
+			if(result2>0){
+				new MemberView().displaySuccess("삭제성공");
+			}
+		}
+		else{
+			new MemberView().displayError("아이디확인");
+		}
 	}
 	
 	
