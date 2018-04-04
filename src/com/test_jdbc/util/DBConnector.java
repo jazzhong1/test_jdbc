@@ -1,9 +1,12 @@
 package com.test_jdbc.util;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class DBConnector {
 	
@@ -11,11 +14,19 @@ public class DBConnector {
 	}
 	
 	public static Connection getConnect(){
+		
+		Properties prop=new Properties();{
+			try {
+				prop.load(new BufferedReader(new FileReader("source/driver.properties")));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 			
 		Connection conn = null;
 		try {
-			Class.forName("oracle.jdbc.OracleDriver");
-			 conn=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "student", "student");
+			Class.forName(prop.getProperty("driver"));
+			 conn=DriverManager.getConnection(prop.getProperty("url"),prop.getProperty("user"),prop.getProperty("pw"));
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

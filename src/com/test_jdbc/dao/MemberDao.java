@@ -1,20 +1,25 @@
 package com.test_jdbc.dao;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Properties;
 
 import com.test_jdbc.util.DBConnector;
+import com.test_jdbc.util.DBQuery;
 import com.test_jdbc.vo.Member;
 
 import oracle.jdbc.driver.DBConversion;
 
 public class MemberDao {
+	
 
 	public MemberDao() {
-
+	
 	}
 
 	public int connectDB() {
@@ -40,9 +45,9 @@ public class MemberDao {
 
 		try {
 			Connection conn = DBConnector.getConnect();
-			Statement st = conn.createStatement();
 			String sql = "select * from member";
-			ResultSet rs = st.executeQuery(sql);
+			PreparedStatement st = conn.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
 
 			while (rs.next()) {
 				Member member = new Member();
@@ -73,9 +78,10 @@ public class MemberDao {
 		Member member = null;
 		try {
 			Connection conn = DBConnector.getConnect();
-			Statement st = conn.createStatement();
-			String sql = "select * from member where member_id='" + id + "'";
-			ResultSet rs = st.executeQuery(sql);
+			String sql = DBQuery.getQuery().getProperty("selectOne");
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setString(1, id);
+			ResultSet rs = st.executeQuery();
 
 			member = new Member();
 
@@ -105,10 +111,7 @@ public class MemberDao {
 		try {
 			Connection conn = DBConnector.getConnect();
 			Statement stmt = conn.createStatement();
-			String sql = "insert into member values('" + member.getMember_id() + "','" + member.getMember_pwd() + "','"
-					+ member.getMember_name() + "','" + member.getGender() + "'," + member.getAge() + ",'"
-					+ member.getEmail() + "','" + member.getPhone() + "','" + member.getAddress() + "','"
-					+ member.getHobby() + "',sysdate)";
+			String sql = DBQuery.getQuery().getProperty("insertMember");
 
 			result = stmt.executeUpdate(sql);
 
@@ -148,9 +151,9 @@ public class MemberDao {
 		int result = 0;
 		try {
 			conn = DBConnector.getConnect();
-			stmt = conn.createStatement();
-			String sql = "update member set age=" + member.getAge() + ",phone='" + member.getPhone() + "',address='"
-					+ member.getAddress() + "' where member_id='" + id + "'";
+			stmt = conn.createStatement();			
+			String sql = DBQuery.getQuery().getProperty("updateMember");
+
 			result = stmt.executeUpdate(sql);
 
 			if (result > 0) {
@@ -171,7 +174,7 @@ public class MemberDao {
 		try {
 			Connection conn = DBConnector.getConnect();
 			Statement stmt = conn.createStatement();
-			String sql = "delete from member where member_id='" + id + "'";
+			String sql = DBQuery.getQuery().getProperty("memberDelete");
 			result = stmt.executeUpdate(sql);
 			if (result > 0) {
 				conn.commit();

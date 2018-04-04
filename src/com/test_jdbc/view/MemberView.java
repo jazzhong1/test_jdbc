@@ -37,21 +37,17 @@ public class MemberView {
 				new MemberController().selectAll();
 				break;
 			case 2:
-				String id=new MemberView().select();
-				new MemberController().selectOn(id);
+				new MemberController().selectOn();
 				break;
 			case 3:
-				Member member=this.insertMember();
-				new MemberController().insertMember(member);
+				new MemberController().insertMember();
 				break;
 				
 			case 4:
-				id=new MemberView().select();
-				new MemberController().updateMember(id);
+				new MemberController().updateMember();
 				break;
 			case 5:
-				id=new MemberView().select();
-				new MemberController().deleteMember(id);
+				new MemberController().deleteMember();
 				break;
 				
 			case 9:

@@ -35,7 +35,8 @@ public class MemberController {
 		
 	}
 	
-	public void selectOn(String id){
+	public void selectOn(){
+		String id=new MemberView().select();
 		Member member=new MemberDao().selectOne(id);
 		
 		if(member!=null){
@@ -47,8 +48,8 @@ public class MemberController {
 		
 	}
 	
-	public void insertMember(Member member){
-		
+	public void insertMember(){
+		Member member=new MemberView().insertMember();
 		int result=new MemberDao().insertMember(member);
 		if(result>0){
 			new MemberView().displaySuccess("성공");
@@ -61,7 +62,8 @@ public class MemberController {
 		
 	}
 	
-	public void updateMember(String id){
+	public void updateMember(){
+		String id=new MemberView().select();
 		int result=new MemberDao().find(id);
 		
 		if(result>0){
@@ -80,7 +82,8 @@ public class MemberController {
 		
 	}
 	
-	public void deleteMember(String id){
+	public void deleteMember(){
+		String id=new MemberView().select();
 		int result=new MemberDao().find(id);
 		
 		if(result>0){
